@@ -2,7 +2,6 @@ package com.pluralcamp.daw.ui.console;
 
 import java.util.List;
 import java.util.Scanner;
-
 import com.pluralcamp.daw.entities.core.Color;
 import com.pluralcamp.daw.persistence.daos.contracts.EventDAO;
 import com.pluralcamp.daw.persistence.daos.impl.jdbc.ColorDAOJDBCImpl;
@@ -39,6 +38,8 @@ public class App {
     }
     System.out.println("Pulsa una tecla para continuar");
     stdin.nextLine(); 
-    }
     
+    
+    }
+     
 }

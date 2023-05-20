@@ -13,9 +13,8 @@ import java.util.List;
 
 
 public class ColorDAOJDBCImpl implements ColorDAO {
-    private Color color;
-
-	@Override
+	
+    @Override
     public Color getColorById(long id) throws DAOException {
 
         //Objectes que calen:
@@ -24,16 +23,16 @@ public class ColorDAOJDBCImpl implements ColorDAO {
         //2.1 - Enviar la consulta SQL
         //3er objecte - Obrir un canal de Lectura, un cursor - ResultSet
     	
-    	
-    	   
-		try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/calendar?serverTimezone=Europe/Paris","root","admin");
-    		        PreparedStatement sentSQL = connection.prepareStatement("SELECT id, name, red, green, blue FROM calendar WHERE id = ?");
+    	Color color = null;   
+		try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/calendar?serverTimezone=Europe/Paris","root","");
+    		        PreparedStatement sentSQL = connection.prepareStatement("SELECT id, name, red, green, blue FROM calendar.colors WHERE id = ?");
     		) {
     		    
     		    sentSQL.setLong(1, id);
     		    //sentSQL.executeQuery();
     		    try(ResultSet reader = sentSQL.executeQuery();){
     		        if(reader.next()) {
+    		        // ORM = new [--,--,--,--,--,--,] ---------> []Color
     		        color = new Color(reader.getString("name"),reader.getInt("red"), reader.getInt("green"), reader.getInt("blue"));
     		        color.setId(reader.getLong("id"));
     		        }
@@ -50,21 +49,25 @@ public class ColorDAOJDBCImpl implements ColorDAO {
 
     @Override
     public List<Color> getColors() throws DAOException {
+    	
     	 List<Color> colors = new ArrayList<>();
-    	    try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/calendar?serverTimezone=Europe/Paris","root","admin");
+    	 
+    	    try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/calendar?serverTimezone=Europe/Paris","root","");
     	            PreparedStatement sentSQL = connection.prepareStatement("SELECT id, name, red, green, blue FROM calendar.colors");
-    	    		ResultSet reader = sentSQL.executeQuery() ) {
+    	    		ResultSet reader = sentSQL.executeQuery()) {
     	       
     	        while (reader.next()) {
+    	        	// ORM = new [--,--,--,--,--,--,] ---------> []Color
 	    	        var color = new Color(reader.getString("name"),reader.getInt("red"), reader.getInt("green"), reader.getInt("blue"));
 	    	        color.setId(reader.getLong("id"));
 	    	        colors.add(color);
     	        }
 
 	        } catch (SQLException ex) {
-	        throw new DAOException(ex);
+	        	//Loggger
+	        	throw new DAOException(ex);
 	        }
-    return colors;
+    	    	return colors;
 }
 
     @Override
