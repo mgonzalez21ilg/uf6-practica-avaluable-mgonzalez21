@@ -25,7 +25,7 @@ public class ColorDAOJDBCImpl implements ColorDAO {
     	
     	Color color = null;   
 		try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/calendar?serverTimezone=Europe/Paris","root","");
-    		        PreparedStatement sentSQL = connection.prepareStatement("SELECT id, name, red, green, blue FROM calendar.colors WHERE id = ?");
+    		        PreparedStatement sentSQL = connection.prepareStatement("SELECT id, name, red, green, blue FROM colors WHERE id = ?");
     		) {
     		    
     		    sentSQL.setLong(1, id);
@@ -53,7 +53,7 @@ public class ColorDAOJDBCImpl implements ColorDAO {
     	 List<Color> colors = new ArrayList<>();
     	 
     	    try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/calendar?serverTimezone=Europe/Paris","root","");
-    	            PreparedStatement sentSQL = connection.prepareStatement("SELECT id, name, red, green, blue FROM calendar.colors");
+    	            PreparedStatement sentSQL = connection.prepareStatement("SELECT id, name, red, green, blue FROM colors");
     	    		ResultSet reader = sentSQL.executeQuery()) {
     	       
     	        while (reader.next()) {
